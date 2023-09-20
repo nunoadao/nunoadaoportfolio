@@ -1,6 +1,75 @@
 #1 ---	What’s the average house price in USA?
+
+  SELECT avg(price) as avg_house_price_usa
+  FROM usa_houses;
+
 #2 ---	What’s the average house prices in different states?
-#3 --- 	Identify de the regions with the lowest and highest average prices.
-#4 ---	How prices change by time?
-#5 ---	How are house price and location correlated?
-#6 ---	Predict the selling price of a house based on its features (eg. Size, number of bedrooms, etc…)
+
+  select state, avg(price) as avg_price_state
+  from usa_houses
+  group by state;
+
+
+#3 --- 	Identify the cities with the lowest and highest average prices.
+
+  SELECT city, AVG(price) AS city_low_average_price
+  FROM usa_houses
+  GROUP BY city
+  ORDER BY city_low_average_price ASC
+  LIMIT 1; -- Lowest average price
+
+  SELECT city, AVG(price) AS city_high_average_price
+  FROM usa_houses
+  GROUP BY city
+  ORDER BY city_high_average_price DESC
+  LIMIT 1; -- Highest average price
+
+#4 --- 	Identify the state with the lowest and highest average prices.
+
+ SELECT state, AVG(price) AS state_low_average_price
+  FROM usa_houses
+  GROUP BY state
+  ORDER BY state_low_average_price ASC
+  LIMIT 1; -- Lowest average price
+
+ SELECT state, AVG(price) AS state_high_average_price
+  FROM usa_houses
+  GROUP BY state
+  ORDER BY state_high_average_price DESC
+  LIMIT 1; -- Highest average price
+
+#5 --- 	Identify the lowest and highest prices for each city.
+
+  SELECT city, MIN(price) AS lowest_price, MAX(price) AS highest_price
+  FROM usa_houses
+  GROUP BY city;
+
+
+
+#6 ---	How prices change by number of beds and baths?
+
+  SELECT
+      bed,
+      bath,
+      AVG(price) AS average_price
+  FROM
+      usa_houses
+  GROUP BY
+      bed, bath
+  ORDER BY
+      bed, bath;
+
+
+#7 ---	How are house price and location correlated?
+
+  SELECT
+      city,
+      AVG(price) AS average_price
+  FROM
+      usa_houses
+  GROUP BY
+      city
+  ORDER BY
+      average_price DESC;
+
+
