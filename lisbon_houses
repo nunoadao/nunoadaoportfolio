@@ -1,0 +1,65 @@
+#1.	What’s the average house price in Lisbon?
+
+  select avg(price)
+  from lisbon_houses
+
+
+#2.	What’s the average house prices in different parish?
+
+  select parish, avg(price)
+  from lisbon_houses
+  group by parish
+
+
+#3. Create a new column named "Sales" where
+    New and for refurbishment = For sale 
+    Used and As new = sold
+
+    ALTER TABLE lisbon_houses
+    ADD Sales VARCHAR(50);
+    
+    UPDATE lisbon_houses
+    SET Sales = CASE
+        WHEN lisbon_houses.condition = 'New' OR lisbon_houses.condition = 'For Refurbishment' THEN 'For Sale'
+        WHEN lisbon_houses.condition = 'Used' OR lisbon_houses.condition = 'As New' THEN 'Sold'
+        ELSE NULL -- or you can set it to another default value or an empty string ('')
+    END;
+
+
+#4.	How many houses are for sale and have been sold?
+
+    select count(sales) as sold_houses
+    from lisbon_houses
+    where sales = 'sold'
+
+    select count(sales) as for_sale_houses
+    from lisbon_houses
+    where sales = 'for sale'
+
+#5.	What’s the average price for m2?
+
+    select SUM(price) / SUM(AreaNet) as average_price_m2
+    from lisbon_houses
+  
+#6.	What’s the total sales in $?
+
+    select SUM(price) as total_sales
+    from lisbon_houses
+    where Sales = 'sold'
+
+
+#8.	What’s the average m2 size?
+
+    select avg(AreaNet) as avg_arenet
+    from lisbon_houses
+
+
+#9.	What’s the percentage of house sold? 
+
+    SELECT
+        (COUNT(CASE WHEN Sales = 'Sold' THEN 1 END) / COUNT(*)) * 100 AS percentage_sold
+    FROM
+        your_table_name;
+
+
+
